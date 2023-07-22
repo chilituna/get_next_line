@@ -6,7 +6,7 @@
 /*   By: aarponen <aarponen@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 08:42:57 by aarponen          #+#    #+#             */
-/*   Updated: 2023/07/18 19:59:01 by aarponen         ###   ########.fr       */
+/*   Updated: 2023/07/22 16:36:06 by aarponen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,25 @@ char	*pre_ft_strjoin(char *line, char *temp_buffer)
 	char	*str;
 
 	if (temp_buffer[0] == '\0' && !line)
+	{
+		free(temp_buffer);
 		return (NULL);
+	}
 	if (!line)
 	{
 		line = (char *)malloc(sizeof(char) * 1);
 		if (!line)
+		{
+			free(temp_buffer);
 			return (NULL);
+		}
 		line[0] = '\0';
 	}
 	str = ft_strjoin(line, temp_buffer);
+	if (!str)
+		free(temp_buffer);
 	free(line);
+	line = NULL;
 	return (str);
 }
 
@@ -71,6 +80,7 @@ char	*copy_new_line(char *line)
 	if (!new_line)
 	{
 		free(line);
+		line = NULL;
 		return (NULL);
 	}
 	return (new_line);
@@ -83,29 +93,21 @@ char	*ft_read_line(int fd, char *reading_line)
 
 	temp_buffer = malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!temp_buffer)
-	{
-		if (reading_line)
-			free(reading_line);
 		return (NULL);
-	}
 	read_bytes = 1;
 	while (!ft_strchr(reading_line, '\n') && read_bytes != 0)
 	{
 		read_bytes = read(fd, temp_buffer, BUFFER_SIZE);
 		if (read_bytes == -1)
 		{
-			if (reading_line)
-				free(reading_line);
+			free(reading_line);
 			free(temp_buffer);
 			return (NULL);
 		}
 		temp_buffer[read_bytes] = '\0';
 		reading_line = pre_ft_strjoin(reading_line, temp_buffer);
 		if (!reading_line)
-		{
-			free(temp_buffer);
 			return (NULL);
-		}
 	}
 	free(temp_buffer);
 	return (reading_line);
@@ -124,6 +126,7 @@ char	*get_next_line(int fd)
 	if (reading_line[0] == '\0')
 	{
 		free(reading_line);
+		reading_line = NULL;
 		return (NULL);
 	}
 	new_line = copy_new_line(reading_line);
@@ -140,7 +143,7 @@ char	*get_next_line(int fd)
 
 // 	test_file = open("test.txt", O_RDONLY);
 // 	line_nbr = 1;
-// 	while (line_nbr <= 5)
+// 	while (line_nbr <= 3)
 // 	{
 // 		line = get_next_line(test_file);
 // 		if (!line)

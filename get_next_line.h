@@ -6,7 +6,7 @@
 /*   By: aarponen <aarponen@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 08:43:09 by aarponen          #+#    #+#             */
-/*   Updated: 2023/07/18 17:07:07 by aarponen         ###   ########.fr       */
+/*   Updated: 2023/07/22 10:13:39 by aarponen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include <stddef.h>
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 32
+#  define BUFFER_SIZE 10
 # endif
 
 char	*get_next_line(int fd);
