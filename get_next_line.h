@@ -6,7 +6,7 @@
 /*   By: aarponen <aarponen@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 08:43:09 by aarponen          #+#    #+#             */
-/*   Updated: 2023/07/22 10:13:39 by aarponen         ###   ########.fr       */
+/*   Updated: 2023/07/23 21:35:32 by aarponen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,7 @@ char	*pre_ft_strjoin(char *line, char *temp_buffer);
 char	*ft_strchr(const char *s, int c);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	*ft_strdup(const char *s);
+//ssize_t custom_read(int fd, void *buf, size_t count);
+// void* custom_malloc(size_t size);
 
 #endif

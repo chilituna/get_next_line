@@ -6,7 +6,7 @@
 /*   By: aarponen <aarponen@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 08:42:57 by aarponen          #+#    #+#             */
-/*   Updated: 2023/07/22 16:36:06 by aarponen         ###   ########.fr       */
+/*   Updated: 2023/07/23 22:27:55 by aarponen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ char	*pre_ft_strjoin(char *line, char *temp_buffer)
 	if (!str)
 		free(temp_buffer);
 	free(line);
-	line = NULL;
 	return (str);
 }
 
@@ -100,7 +99,8 @@ char	*ft_read_line(int fd, char *reading_line)
 		read_bytes = read(fd, temp_buffer, BUFFER_SIZE);
 		if (read_bytes == -1)
 		{
-			free(reading_line);
+			if (reading_line)
+				free(reading_line);
 			free(temp_buffer);
 			return (NULL);
 		}
@@ -135,13 +135,27 @@ char	*get_next_line(int fd)
 	reading_line = go_to_next_line(reading_line);
 	return (new_line);
 }
+// ssize_t custom_read(int fd, void *buf, size_t count)
+// {
+// 	if (fd && buf && count > 0)
+//     	return (-1);
+// 	else
+// 		return (0);
+// }
+// void* custom_malloc(size_t size) 
+// {
+//     if (size > 0)
+// 		return NULL;
+// 	else
+// 		return (ft_strdup(""));
+// }
 // int	main(void)
 // {
 // 	char	*line;
 // 	int		line_nbr;
 // 	int		test_file;
-
-// 	test_file = open("test.txt", O_RDONLY);
+// 	// test_file = open("test.txt", O_RDONLY);
+// 	test_file = 0;
 // 	line_nbr = 1;
 // 	while (line_nbr <= 3)
 // 	{
