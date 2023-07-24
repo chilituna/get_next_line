@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aarponen <aarponen@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 08:42:57 by aarponen          #+#    #+#             */
-/*   Updated: 2023/07/24 20:37:06 by aarponen         ###   ########.fr       */
+/*   Updated: 2023/07/24 21:35:33 by aarponen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 #include <fcntl.h>
 #include <stdio.h>
 
@@ -67,24 +67,6 @@ char	*go_to_next_line(char *line)
 	return (next_line);
 }
 
-char	*copy_new_line(char *line)
-{
-	char	*new_line;
-	int		i;
-
-	i = 0;
-	while (line[i] != '\n' && line[i])
-		i++;
-	new_line = ft_substr(line, 0, i + 1);
-	if (!new_line)
-	{
-		free(line);
-		line = NULL;
-		return (NULL);
-	}
-	return (new_line);
-}
-
 char	*ft_read_line(int fd, char *reading_line)
 {
 	int		read_bytes;
@@ -113,26 +95,62 @@ char	*ft_read_line(int fd, char *reading_line)
 	return (reading_line);
 }
 
-char	*get_next_line(int fd)
+t_fd_node	*find_or_create_fd_node(t_fd_node **head, int fd)
 {
-	static char	*reading_line;
-	char		*new_line;
+	t_fd_node	*node;
+	t_fd_node	*temp;
 
-	if (fd < 0 || BUFFER_SIZE <= 0)
-		return (NULL);
-	reading_line = ft_read_line(fd, reading_line);
-	if (!reading_line)
-		return (NULL);
-	if (reading_line[0] == '\0')
+	node = *head;
+	while (node)
 	{
-		free(reading_line);
-		reading_line = NULL;
+		if (node->fd == fd)
+			return (node);
+		node = node->next;
+	}
+	node = (t_fd_node *)malloc(sizeof(*node));
+	if (!node)
+	{
+		while (*head)
+		{
+			temp = *head;
+			*head = (*head)->next;
+			free(temp);
+		}
 		return (NULL);
 	}
-	new_line = copy_new_line(reading_line);
+	node->fd = fd;
+	node->reading_line = NULL;
+	node->next = *head;
+	*head = node;
+	return (node);
+}
+
+char	*get_next_line(int fd)
+{
+	static t_fd_node	*head;
+	t_fd_node			*current_fd;
+	char				*new_line;
+	int					i;
+
+	current_fd = find_or_create_fd_node(&head, fd);
+	if (!current_fd || fd < 0 || BUFFER_SIZE <= 0)
+		return (NULL);
+	current_fd->reading_line = ft_read_line(fd, current_fd->reading_line);
+	if (!current_fd->reading_line)
+		return (NULL);
+	if (current_fd->reading_line[0] == '\0')
+	{
+		free(current_fd->reading_line);
+		current_fd->reading_line = NULL;
+		return (NULL);
+	}
+	i = 0;
+	while (current_fd->reading_line[i] && current_fd->reading_line[i] != '\n')
+		i++;
+	new_line = ft_substr(current_fd->reading_line, 0, i + 1);
 	if (!new_line)
 		return (NULL);
-	reading_line = go_to_next_line(reading_line);
+	current_fd->reading_line = go_to_next_line(current_fd->reading_line);
 	return (new_line);
 }
 // ssize_t custom_read(int fd, void *buf, size_t count)
@@ -154,12 +172,28 @@ char	*get_next_line(int fd)
 // 	char	*line;
 // 	int		line_nbr;
 // 	int		test_file;
-// 	// test_file = open("test.txt", O_RDONLY);
-// 	test_file = 0;
+// 	int		test_file_1;
+// 	int		test_file_2;
+// 	test_file = open("fi.txt", O_RDONLY);
+// 	// test_file = 0;
+// 	test_file_1 = open("en.txt", O_RDONLY);
+// 	test_file_2 = open("de.txt", O_RDONLY);
 // 	line_nbr = 1;
 // 	while (line_nbr <= 3)
 // 	{
 // 		line = get_next_line(test_file);
+// 		if (!line)
+// 			return (0);
+// 		printf("Line %d: %s", line_nbr, line);
+// 		free(line);
+// 		line = NULL;
+// 		line = get_next_line(test_file_1);
+// 		if (!line)
+// 			return (0);
+// 		printf("Line %d: %s", line_nbr, line);
+// 		free(line);
+// 		line = NULL;
+// 		line = get_next_line(test_file_2);
 // 		if (!line)
 // 			return (0);
 // 		printf("Line %d: %s", line_nbr, line);
