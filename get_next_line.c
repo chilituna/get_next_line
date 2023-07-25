@@ -6,7 +6,7 @@
 /*   By: aarponen <aarponen@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 08:42:57 by aarponen          #+#    #+#             */
-/*   Updated: 2023/07/24 20:37:06 by aarponen         ###   ########.fr       */
+/*   Updated: 2023/07/25 11:13:16 by aarponen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,7 @@ char	*get_next_line(int fd)
 // {
 // 	if (fd && buf && count > 0)
 //     	return (-1);
-// 	else
+// 	elset_fd_node			*current_fd;
 // 		return (0);
 // }
 // void* custom_malloc(size_t size) 

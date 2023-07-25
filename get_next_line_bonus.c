@@ -6,7 +6,7 @@
 /*   By: aarponen <aarponen@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 08:42:57 by aarponen          #+#    #+#             */
-/*   Updated: 2023/07/24 21:35:33 by aarponen         ###   ########.fr       */
+/*   Updated: 2023/07/25 11:40:04 by aarponen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,62 +95,44 @@ char	*ft_read_line(int fd, char *reading_line)
 	return (reading_line);
 }
 
-t_fd_node	*find_or_create_fd_node(t_fd_node **head, int fd)
+char	*copy_new_line(char *line)
 {
-	t_fd_node	*node;
-	t_fd_node	*temp;
+	char	*new_line;
+	int		i;
 
-	node = *head;
-	while (node)
+	i = 0;
+	while (line[i] != '\n' && line[i])
+		i++;
+	new_line = ft_substr(line, 0, i + 1);
+	if (!new_line)
 	{
-		if (node->fd == fd)
-			return (node);
-		node = node->next;
-	}
-	node = (t_fd_node *)malloc(sizeof(*node));
-	if (!node)
-	{
-		while (*head)
-		{
-			temp = *head;
-			*head = (*head)->next;
-			free(temp);
-		}
+		free(line);
+		line = NULL;
 		return (NULL);
 	}
-	node->fd = fd;
-	node->reading_line = NULL;
-	node->next = *head;
-	*head = node;
-	return (node);
+	return (new_line);
 }
 
 char	*get_next_line(int fd)
 {
-	static t_fd_node	*head;
-	t_fd_node			*current_fd;
-	char				*new_line;
-	int					i;
+	static char	*reading_line[1024];
+	char		*new_line;
 
-	current_fd = find_or_create_fd_node(&head, fd);
-	if (!current_fd || fd < 0 || BUFFER_SIZE <= 0)
+	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	current_fd->reading_line = ft_read_line(fd, current_fd->reading_line);
-	if (!current_fd->reading_line)
+	reading_line[fd] = ft_read_line(fd, reading_line[fd]);
+	if (!reading_line[fd])
 		return (NULL);
-	if (current_fd->reading_line[0] == '\0')
+	if (reading_line[fd][0] == '\0')
 	{
-		free(current_fd->reading_line);
-		current_fd->reading_line = NULL;
+		free(reading_line[fd]);
+		reading_line[fd] = NULL;
 		return (NULL);
 	}
-	i = 0;
-	while (current_fd->reading_line[i] && current_fd->reading_line[i] != '\n')
-		i++;
-	new_line = ft_substr(current_fd->reading_line, 0, i + 1);
+	new_line = copy_new_line(reading_line[fd]);
 	if (!new_line)
 		return (NULL);
-	current_fd->reading_line = go_to_next_line(current_fd->reading_line);
+	reading_line[fd] = go_to_next_line(reading_line[fd]);
 	return (new_line);
 }
 // ssize_t custom_read(int fd, void *buf, size_t count)
@@ -184,19 +166,19 @@ char	*get_next_line(int fd)
 // 		line = get_next_line(test_file);
 // 		if (!line)
 // 			return (0);
-// 		printf("Line %d: %s", line_nbr, line);
+// 		printf("File %d Line %d: %s", test_file, line_nbr, line);
 // 		free(line);
 // 		line = NULL;
 // 		line = get_next_line(test_file_1);
 // 		if (!line)
 // 			return (0);
-// 		printf("Line %d: %s", line_nbr, line);
+// 		printf("File %d Line %d: %s", test_file_1, line_nbr, line);
 // 		free(line);
 // 		line = NULL;
 // 		line = get_next_line(test_file_2);
 // 		if (!line)
 // 			return (0);
-// 		printf("Line %d: %s", line_nbr, line);
+// 		printf("File %d Line %d: %s", test_file_2, line_nbr, line);
 // 		free(line);
 // 		line = NULL;
 // 		line_nbr++;

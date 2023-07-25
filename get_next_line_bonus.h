@@ -6,7 +6,7 @@
 /*   By: aarponen <aarponen@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 08:43:09 by aarponen          #+#    #+#             */
-/*   Updated: 2023/07/24 20:44:49 by aarponen         ###   ########.fr       */
+/*   Updated: 2023/07/25 11:17:11 by aarponen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,8 @@
 #  define BUFFER_SIZE 10
 # endif
 
-typedef struct s_fd_node
-{
-	int					fd;
-	char				*reading_line;
-	struct s_fd_node	*next;
-}	t_fd_node;
-
 char		*get_next_line(int fd);
-t_fd_node	*find_or_create_fd_node(t_fd_node **head, int fd);
+char		*copy_new_line(char *line);
 char		*ft_read_line(int fd, char *reading_line);
 char		*go_to_next_line(char *line);
 size_t		ft_strlen(const char *str);
