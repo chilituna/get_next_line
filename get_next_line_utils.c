@@ -6,7 +6,7 @@
 /*   By: aarponen <aarponen@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 08:41:05 by aarponen          #+#    #+#             */
-/*   Updated: 2023/07/23 21:35:19 by aarponen         ###   ########.fr       */
+/*   Updated: 2023/07/26 14:37:03 by aarponen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,19 +24,16 @@ size_t	ft_strlen(const char *str)
 
 char	*ft_strchr(const char *s, int c)
 {
-	int		i;
-
-	i = 0;
 	if (!s)
 		return (NULL);
-	while (s[i])
+	while (*s)
 	{
-		if (s[i] == (char)c)
-			return ((char *) s + i);
-		i++;
+		if (*s == (char)c)
+			return ((char *)s);
+		s++;
 	}
-	if (s[i] == (char)c)
-		return ((char *) s);
+	if (*s == (char)c)
+		return ((char *)s);
 	return (NULL);
 }
 

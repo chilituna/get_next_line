@@ -6,7 +6,7 @@
 /*   By: aarponen <aarponen@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 08:42:57 by aarponen          #+#    #+#             */
-/*   Updated: 2023/07/25 11:40:04 by aarponen         ###   ########.fr       */
+/*   Updated: 2023/07/25 17:11:08 by aarponen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ char	*get_next_line(int fd)
 	static char	*reading_line[1024];
 	char		*new_line;
 
-	if (fd < 0 || BUFFER_SIZE <= 0)
+	if (fd < 0 || fd > 1024 || BUFFER_SIZE <= 0)
 		return (NULL);
 	reading_line[fd] = ft_read_line(fd, reading_line[fd]);
 	if (!reading_line[fd])
