@@ -1,8 +1,7 @@
 # get_next_line
 
-Get Next Line
-Reading a line from a fd is way too tedious
+This project was about programming a function that returns a line read from a file descriptor.
 
-Summary:
-This project is about programming a function that returns a line
-read from a file descriptor
+I also learned about static variables.
+
+Received score 125/100
