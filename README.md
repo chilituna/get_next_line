@@ -6,6 +6,10 @@ This project was completed as part of the 42 curriculum and includes both the ma
 
 Grade: `125/100`
 
+## About
+
+This repository showcases practical C systems-programming fundamentals: precise control over memory, file-descriptor I/O, and predictable behavior under constrained APIs.
+
 ## Project Summary
 
 `get_next_line` solves a common systems-programming task: incremental line-by-line reading from streams without loading the entire file into memory.
@@ -98,6 +102,4 @@ int main(void)
 - Edge-case handling (EOF, empty input, invalid FDs, read errors)
 - Writing reusable low-level utility functions in C
 
-## About
 
-This repository showcases practical C systems-programming fundamentals: precise control over memory, file-descriptor I/O, and predictable behavior under constrained APIs.
