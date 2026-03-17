@@ -1,7 +1,5 @@
 ![get_next_line banner](images/get_next_line_banner.png)
 
-## get_next_line
-
 A C implementation of `get_next_line(int fd)` that reads from a file descriptor and returns one line per call with predictable memory behavior.
 
 **Score: 125/100**
