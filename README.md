@@ -2,7 +2,8 @@
 
 A C implementation of `get_next_line(int fd)` that reads from a file descriptor and returns one line per call with predictable memory behavior.
 
-**Score: 125/100**
+**Score: 125/100**  
+*This project was completed as part of the 42 School curriculum, achieving full marks with bonus features.*
 
 ## Overview
 
@@ -189,5 +190,11 @@ int main(void)
 - Building robust file-descriptor read loops around partial reads
 - Managing dynamic memory safely across success and failure paths
 - Structuring low-level C code into focused, reusable modules
+
+---
+
+## License
+
+This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
 
 
